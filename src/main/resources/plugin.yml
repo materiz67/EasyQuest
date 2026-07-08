@@ -1,0 +1,9 @@
+name: EasyQuests
+version: 1.2
+main: pl.example.quests.QuestPlugin
+api-version: 1.20
+softdepend: [PlaceholderAPI, Vault]
+commands:
+  questy:
+    description: Otwiera menu główne z kategoriami zadań.
+    aliases: [quests, zadania]

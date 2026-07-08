@@ -1,0 +1,11 @@
+prefix: "&8[&e&lQuesty&8] &r"
+no-permission: "%prefix%&c&lBłąd! &7Nie posiadasz uprawnień do wykonania tego zadania lub komendy."
+reload-success: "%prefix%&aKonfiguracja zadań oraz wiadomości została przeładowana!"
+only-players: "&cTylko gracze w grze mogą korzystać z tego interfejsu."
+quest-completed: "%prefix%&a&lUKOŃCZONO ZADANIE! &7Zadanie &6%quest_name% &7zostało wykonane. Otrzymujesz: &e%reward_desc%"
+
+# --- Profesjonalne ustawienia paska ActionBar ---
+actionbar:
+  enabled: true
+  # Wygląd paska ActionBar. %progress_bar% automatycznie wygeneruje kolorowe kreseczki [||||||]
+  format: "&e%quest_name% &7» &a%current%&7/&a%max% &8[%progress_bar%&8]"
