@@ -1,0 +1,32 @@
+id: "02-gornik"
+display-name: "<gold>Górnicze Życie"
+description:
+  - "<gray>Zejdź głębiej pod ziemię i wydobądź żelazo."
+order: 2
+
+icons:
+  locked:
+    material: "BARRIER"
+    name: "<red>Zablokowane Zadanie"
+    lore:
+      - "<gray>Wymagane ukończenie: Pierwsze Kroki"
+  active:
+    material: "IRON_ORE"
+    name: "<yellow>W trakcie: Gornicze Zycie"
+    lore:
+      - "<gray>Cel: Wydobadz rude zelaza"
+      - "<gray>Postep: <gold>%progress%/10</gold>"
+  completed:
+    material: "IRON_INGOT"
+    name: "<green>Ukonczono: Gornicze Zycie"
+    lore:
+      - "<gray>To zadanie zostalo pomyslnie zrealizowane."
+
+objective:
+  type: "MINE_BLOCKS"
+  target: "IRON_ORE"
+  amount: 10
+
+rewards:
+  commands:
+    - "give %player% iron_pickaxe 1"

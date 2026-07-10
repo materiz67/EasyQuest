@@ -1,0 +1,34 @@
+id: "01-poczatki"
+display-name: "<yellow>Pierwsze Kroki"
+description:
+  - "<gray>Twoja przygoda właśnie się rozpoczyna."
+  - "<gray>Wydobądź węgiel, aby przygotować pochodnie."
+order: 1
+
+icons:
+  locked:
+    material: "BARRIER"
+    name: "<red>Zablokowane Zadanie"
+    lore:
+      - "<gray>Musisz ukonczyc poprzednie kroki."
+  active:
+    material: "COAL_ORE"
+    name: "<yellow>W trakcie: Pierwsze Kroki"
+    lore:
+      - "<gray>Cel: Wydobadz wegiel"
+      - "<gray>Postep: <gold>%progress%/16</gold>"
+  completed:
+    material: "CHARCOAL"
+    name: "<green>Ukonczono: Pierwsze Kroki"
+    lore:
+      - "<gray>To zadanie zostalo pomyslnie zrealizowane."
+
+objective:
+  type: "MINE_BLOCKS"
+  target: "COAL_ORE"
+  amount: 16
+
+rewards:
+  commands:
+    - "give %player% bread 5"
+    - "xp give %player% 50"

@@ -1,0 +1,19 @@
+# ========================================== #
+#              EasyQuest Config              #
+# ========================================== #
+
+database:
+  # true = MySQL/MariaDB (sieć serwerów), false = SQLite (lokalny plik database.db)
+  use-mysql: false
+  host: "localhost"
+  port: 3306
+  database: "minecraft"
+  username: "root"
+  password: "password"
+
+settings:
+  # Tytuł głównego menu zadań (wspiera MiniMessage, np. gradienty)
+  menu-title: "<gradient:gold:yellow>Droga zadan</gradient>"
+
+  # Format paska postępu wyświetlanego nad ekwipunkiem gracza (ActionBar)
+  actionbar-progress-format: "<gray>Zadanie: <yellow>%quest% <gray>➔ <gold>%progress%/%target%</gold>"
