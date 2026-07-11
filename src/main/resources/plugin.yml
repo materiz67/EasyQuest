@@ -1,13 +1,13 @@
 name: EasyQuest
-version: '1.3.4'
+version: '1.4.0'
 main: pl.materiz66.easyquests.EasyQuestPlugin
 api-version: '1.21'
 author: materiz67
-description: Nowoczesny i zoptymalizowany plugin na zadania liniowe pod wersję 1.21.8+.
+description: Nowoczesny i w pełni konfigurowalny plugin na zadania liniowe pod wersję 1.21.8+.
 
 commands:
   quest:
-    description: Otwiera menu drogi zadan.
+    description: Otwiera menu drogi zadan lub pokazuje status.
     permission: easyquests.use
     aliases: [quests, zadania, questy]
   easyquest:
