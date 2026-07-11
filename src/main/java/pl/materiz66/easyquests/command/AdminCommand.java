@@ -23,7 +23,6 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        // Weryfikacja uprawnień administracyjnych
         if (!sender.hasPermission("easyquests.admin")) {
             String noPermission = plugin.getMessagesYaml().getString("no-permission", "<red>Nie masz uprawnien.");
             if (sender instanceof Player player) {
@@ -36,7 +35,6 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
 
         String prefix = plugin.getMessagesYaml().getString("prefix", "<gray>[<gold>EasyQuests</gold>] ");
 
-        // Wyświetlenie pomocy w przypadku braku argumentów
         if (args.length == 0) {
             sendHelp(sender, prefix);
             return true;
@@ -44,17 +42,15 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
 
         String subCommand = args[0].toLowerCase();
 
-        // Podkomenda: Przeładowanie plików konfiguracyjnych i zadań
         if (subCommand.equals("reload")) {
             plugin.reloadConfig();
-            plugin.reloadMessages(); // Metoda zostanie zaimplementowana w klasie głównej
+            plugin.reloadMessages();
             plugin.getQuestManager().loadQuests();
 
             sender.sendMessage(plugin.getMessageService().parse(prefix + "<green>Konfiguracja oraz zadania zostaly pomyslnie przeladowane!"));
             return true;
         }
 
-        // Podkomenda: Resetowanie postępów gracza
         if (subCommand.equals("reset")) {
             if (args.length < 2) {
                 sender.sendMessage(plugin.getMessageService().parse(prefix + "<red>Prawidlowe uzycie: /eq admin reset <gracz>"));
@@ -77,13 +73,14 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
             progress.getActiveQuestsProgress().clear();
             progress.getCompletedQuests().clear();
 
-            // Przydzielenie pierwszego zadania na ścieżce jako aktywnego
-            var quests = plugin.getQuestManager().getQuestsInOrder();
-            if (!quests.isEmpty()) {
-                progress.getActiveQuestsProgress().put(quests.get(0).getId(), 0);
+            // Przydzielenie pierwszego zadania na start dla każdej kategorii
+            for (String categoryId : plugin.getConfigManager().getSettings().getCategories().keySet()) {
+                var categoryQuests = plugin.getQuestManager().getQuestsByCategory(categoryId);
+                if (!categoryQuests.isEmpty()) {
+                    progress.getActiveQuestsProgress().put(categoryQuests.get(0).getId(), 0);
+                }
             }
 
-            // Asynchroniczny zapis nowo utworzonego stanu do bazy danych
             plugin.getDatabaseService().savePlayerProgress(progress);
 
             sender.sendMessage(plugin.getMessageService().parse(prefix + "<green>Zresetowano postep zadan dla gracza <yellow>" + target.getName() + "</yellow>."));
@@ -98,7 +95,7 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
     private void sendHelp(CommandSender sender, String prefix) {
         sender.sendMessage(plugin.getMessageService().parse(prefix + "<gray>Lista komend administratora:"));
         sender.sendMessage(plugin.getMessageService().parse("<yellow>/eq admin reload <gray>- Przeladowuje pliki konfiguracji."));
-        sender.sendMessage(plugin.getMessageService().parse("<yellow>/eq admin reset <gracz> <gray>- Resetuje postep i aktywuje pierwsze zadanie."));
+        sender.sendMessage(plugin.getMessageService().parse("<yellow>/eq admin reset <gracz> <gray>- Resetuje postep we wszystkich kategoriach."));
     }
 
     @Override
@@ -107,14 +104,12 @@ public class AdminCommand implements CommandExecutor, TabCompleter {
             return List.of();
         }
 
-        // Pierwszy argument: Podkomendy admina
         if (args.length == 1) {
             return List.of("reload", "reset").stream()
                     .filter(sub -> sub.startsWith(args[0].toLowerCase()))
                     .collect(Collectors.toList());
         }
 
-        // Drugi argument (tylko dla komendy 'reset'): Lista graczy online
         if (args.length == 2 && args[0].equalsIgnoreCase("reset")) {
             return Bukkit.getOnlinePlayers().stream()
                     .map(Player::getName)

@@ -1,5 +1,6 @@
 id: "01-poczatki"
-display-name: "<yellow>Pierwsze Kroki"
+category: "gornik"
+display-name: "<yellow>Węglowy Początek"
 description:
   - "<gray>Twoja przygoda właśnie się rozpoczyna."
   - "<gray>Wydobądź węgiel, aby przygotować pochodnie."
@@ -8,20 +9,22 @@ order: 1
 icons:
   locked:
     material: "BARRIER"
-    name: "<red>Zablokowane Zadanie"
+    name: "<red>✖ Zablokowane Zadanie"
     lore:
-      - "<gray>Musisz ukonczyc poprzednie kroki."
+      - "<gray>Musisz ukończyć poprzednie kroki.</gray>"
   active:
     material: "COAL_ORE"
-    name: "<yellow>W trakcie: Pierwsze Kroki"
+    name: "<yellow>⚒ W trakcie: Węglowy Początek"
     lore:
-      - "<gray>Cel: Wydobadz wegiel"
-      - "<gray>Postep: <gold>%progress%/16</gold>"
+      - "<gray>Cel: Wydobądź węgiel"
+      - "<gray>Postęp: <gold>%progress%/16</gold>"
+      - ""
+      - "<yellow>▶ Kliknij po szczegóły"
   completed:
-    material: "CHARCOAL"
-    name: "<green>Ukonczono: Pierwsze Kroki"
+    material: "EMERALD"
+    name: "<green>✔ Ukończono: Węglowy Początek"
     lore:
-      - "<gray>To zadanie zostalo pomyslnie zrealizowane."
+      - "<gray>Zadanie zostało pomyślnie zrealizowane.</gray>"
 
 objective:
   type: "MINE_BLOCKS"

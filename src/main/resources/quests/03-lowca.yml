@@ -1,27 +1,30 @@
 id: "03-lowca"
+category: "mysliwy"
 display-name: "<red>Pogromca Cieni"
 description:
   - "<gray>Potwory nawiedzają tutejsze jaskinie."
   - "<gray>Oczyść teren z zombie, by zapewnić bezpieczeństwo."
-order: 3
+order: 1
 
 icons:
   locked:
     material: "BARRIER"
-    name: "<red>Zablokowane Zadanie"
+    name: "<red>✖ Zablokowane Zadanie"
     lore:
-      - "<gray>Wymagane ukończenie: Gornicze Zycie"
+      - "<gray>Musisz ukończyć poprzednie kroki.</gray>"
   active:
     material: "ZOMBIE_HEAD"
-    name: "<yellow>W trakcie: Pogromca Cieni"
+    name: "<yellow>⚔ W trakcie: Pogromca Cieni"
     lore:
       - "<gray>Cel: Pokonaj Zombie"
-      - "<gray>Postep: <gold>%progress%/5</gold>"
+      - "<gray>Postęp: <gold>%progress%/5</gold>"
+      - ""
+      - "<yellow>▶ Kliknij po szczegóły"
   completed:
-    material: "ROTTEN_FLESH"
-    name: "<green>Ukonczono: Pogromca Cieni"
+    material: "EMERALD"
+    name: "<green>✔ Ukończono: Pogromca Cieni"
     lore:
-      - "<gray>To zadanie zostalo pomyslnie zrealizowane."
+      - "<gray>Zadanie zostało pomyślnie zrealizowane.</gray>"
 
 objective:
   type: "KILL_MOBS"

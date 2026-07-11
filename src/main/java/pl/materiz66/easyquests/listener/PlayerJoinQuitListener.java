@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import pl.materiz66.easyquests.EasyQuestPlugin;
+import pl.materiz66.easyquests.quest.Quest;
 
 public class PlayerJoinQuitListener implements Listener {
     private final EasyQuestPlugin plugin;
@@ -18,10 +19,24 @@ public class PlayerJoinQuitListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         plugin.getDatabaseService().loadPlayerProgress(player.getUniqueId()).thenAccept(progress -> {
-            var quests = plugin.getQuestManager().getQuestsInOrder();
-            if (!quests.isEmpty() && progress.getActiveQuestsProgress().isEmpty() && progress.getCompletedQuests().isEmpty()) {
-                progress.getActiveQuestsProgress().put(quests.get(0).getId(), 0);
+
+            // Sprawdzanie i aktywacja pierwszego zadania dla każdej kategorii z osobna (jeśli gracz nie ma w niej postępu)
+            for (String categoryId : plugin.getConfigManager().getSettings().getCategories().keySet()) {
+                var categoryQuests = plugin.getQuestManager().getQuestsByCategory(categoryId);
+                if (!categoryQuests.isEmpty()) {
+                    boolean hasProgress = false;
+                    for (Quest q : categoryQuests) {
+                        if (progress.getActiveQuestsProgress().containsKey(q.getId()) || progress.getCompletedQuests().containsKey(q.getId())) {
+                            hasProgress = true;
+                            break;
+                        }
+                    }
+                    if (!hasProgress) {
+                        progress.getActiveQuestsProgress().put(categoryQuests.get(0).getId(), 0);
+                    }
+                }
             }
+
             plugin.getCacheManager().cacheProgress(player.getUniqueId(), progress);
         });
     }

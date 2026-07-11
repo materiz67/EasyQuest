@@ -1,9 +1,55 @@
-# ========================================== #
-#            EasyQuest Messages              #
-# ========================================== #
+# ================================================================ #
+#                   EasyQuests  Messages v1.4                      #
+#         Wszystkie wiadomości wspierają format MiniMessage        #
+#                   https://docs.advntr.dev/                       #
+# ================================================================ #
 
-prefix: "<dark_gray>[<gradient:gold:yellow>EasyQuest</gradient>]<gray> "
-no-permission: "<red>Nie masz uprawnien do uzycia tej komendy."
-quest-started: "<green>Rozpoczales nowe zadanie: <yellow>%quest%</yellow>!"
-quest-completed: "<green>Gratulacje! Ukonczyles zadanie <gold>%quest%</gold>."
-quest-progress: "<gray>Postep: <yellow>%objective%</yellow> (<gold>%progress%/%target%</gold>)"
+# Prefix przed każdą wiadomością pluginu
+prefix: "<dark_gray>[<gradient:gold:yellow>EasyQuests</gradient>]<gray> "
+
+# -------------------------------------------------- #
+#  OGÓLNE                                             #
+# -------------------------------------------------- #
+no-permission: "<red>Nie masz uprawnień do użycia tej komendy."
+player-only: "<red>Ta komenda może być wykonana tylko przez gracza."
+player-offline: "<red>Gracz <yellow>{player}</yellow> jest offline."
+invalid-usage: "<red>Nieprawidłowe użycie. Wpisz <yellow>/quest help</yellow>."
+
+# -------------------------------------------------- #
+#  POSTĘP ZADAŃ                                       #
+# -------------------------------------------------- #
+quest-started: "<green>✔ Rozpocząłeś nowe zadanie: <yellow>{quest}</yellow>!"
+quest-completed: "<gold>★ Gratulacje! Ukończyłeś zadanie <green>{quest}</green>!"
+quest-progress: "<gray>Postęp: <yellow>{objective}</yellow> (<gold>{progress}/{target}</gold>)"
+quest-locked: "<red>✖ To zadanie jest zablokowane. Ukończ najpierw poprzednie!"
+quest-all-completed: "<green>✔ Ukończyłeś już wszystkie zadania w tej kategorii!"
+already-started: "<yellow>⚠ To zadanie jest już aktywne."
+
+# -------------------------------------------------- #
+#  KOMENDA /QUEST                                     #
+# -------------------------------------------------- #
+# Nagłówek /quest status
+status-header: "<dark_gray>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+status-title: "<gradient:gold:yellow>  Twoje Aktywne Zadania</gradient>"
+status-line: " <gray>▸ <yellow>{quest} <dark_gray>| <gold>{category} <gray>➔ <aqua>{progress}<gray>/<aqua>{target}"
+status-no-active: " <gray>Nie masz żadnych aktywnych zadań."
+status-footer: "<dark_gray>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# Pomoc /quest
+help-header: "<dark_gray>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+help-title: "<gradient:gold:yellow>  EasyQuests – Pomoc</gradient>"
+help-quest: " <yellow>/quest <gray>— Otwiera menu kategorii zadań."
+help-quest-status: " <yellow>/quest status <gray>— Pokazuje aktywne zadania."
+help-quest-help: " <yellow>/quest help <gray>— Wyświetla tę listę."
+help-footer: "<dark_gray>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# -------------------------------------------------- #
+#  KOMENDA /EASYQUEST (ADMIN)                         #
+# -------------------------------------------------- #
+reload-success: "<green>✔ Konfiguracja oraz zadania zostały pomyślnie przeładowane!"
+reset-success: "<green>✔ Zresetowano postęp zadań dla gracza <yellow>{player}</yellow>."
+reset-notify: "<yellow>⚠ Twój postęp zadań został zresetowany przez administratora."
+give-success: "<green>✔ Nadano graczowi <yellow>{player}</yellow> start kategorii <gold>{category}</gold>."
+give-notify: "<yellow>⚠ Administrator nadał Ci start w kategorii <gold>{category}</gold>."
+category-not-found: "<red>Nie znaleziono kategorii o ID: <yellow>{category}</yellow>."
+no-progress-data: "<red>Błąd: Brak danych gracza w pamięci podręcznej."
