@@ -1,31 +1,129 @@
-# ... [Reszta konfiguracji pozostaje bez zmian] ...
-quest-icons:
-  locked:
-    material: "BARRIER"
-    name: "<red>✖ ᴢᴀʙʟᴏᴋᴏᴡᴀɴᴇ: {quest}"
-    lore:
-      - "<gray>Musisz ukończyć poprzednie etapy tej kategorii."
-  unlocked:
-    name: "<yellow>☘ ᴅᴏsᴛᴇᴘɴᴇ: {quest}"
-    lore:
-      - ""
-      - "{description}"
-      - ""
-      - "<yellow>▶ {action}" # Zostanie zastąpione dynamicznym tekstem aktywacji lub zmiany
-  active:
-    name: "<yellow>⚒ ᴍ ᴛʀᴀᴋᴄɪᴇ: {quest}"
-    lore:
-      - ""
-      - "{description}"
-      - ""
-      - "<gold>ɴᴀɢʀᴏᴅʏ:</gold>"
-      - "{rewards}"
-      - ""
-      - "<gray>ᴘᴏsᴛᴇᴘ: <gold>{progress}/{target_amount} &8[{progress_bar}&8]"
-      - ""
-      - "<yellow>▶ Kliknij po szczegóły"
-  completed:
-    material: "EMERALD"
-    name: "<green>✔ ᴜᴋᴏɴᴄᴢᴏɴᴇ: {quest}"
-    lore:
-      - "<gray>To zadanie zostało wykonane!"
+# ==============================================================================
+#                      EASYQUESTS CONFIGURATION (v1.5.5)
+# ==============================================================================
+
+# Główny prefiks używany w wiadomościach na czacie (obsługuje Hex RGB oraz MiniMessage)
+prefix: "&#ff9900&lEasyQuests &#ffcc00» "
+
+# ==============================================================================
+#                  SILNIK BAZY DANYCH (PRZECHOWYWANIE PROGRESU)
+# ==============================================================================
+database:
+  # Typ zapisu danych graczy:
+  # - YAML   : Klasyczny zapis w osobnych plikach .yml (plugins/EasyQuests/userdata/)
+  # - SQLITE : Lokalna, szybka i zabezpieczona baza danych w jednym pliku .db (Rekomendowane)
+  # - MYSQL  : Zewnętrzna baza danych (Niezbędne przy sieciach BungeeCord/Velocity do synchronizacji)
+  type: "SQLITE"
+
+  # Konfiguracja dla lokalnej bazy danych SQLite
+  sqlite:
+    file: "database.db"
+
+  # Konfiguracja dla zewnętrznej bazy danych MySQL
+  mysql:
+    host: "localhost"
+    port: 3306
+    database: "easyquests"
+    username: "root"
+    password: ""
+    useSSL: false
+
+# ==============================================================================
+#                       USTAWIENIA INTERFEJSU GRAFICZNEGO (GUI)
+# ==============================================================================
+gui:
+  # Tytuł głównego menu kategorii (obsługuje Hex RGB i MiniMessage)
+  title: "&#ff9900&lᴢᴀᴅᴀɴɪᴀ &#ffcc00&lsᴜʀᴠɪᴠᴀʟ" # Typografia RPG bez polskich liter
+
+  # Rozmiar głównego menu kategorii (Wielokrotność 9: np. 9, 18, 27, 36, 45, 54)
+  size: 27
+
+  # Czy puste sloty w menu głównym mają zostać wypełnione szybami dekoracyjnymi
+  fill-empty-slots: true
+  filler-material: "GRAY_STAINED_GLASS_PANE"
+
+  # Wygląd paska postępu wewnątrz lore ikon oraz ActionBara
+  progress-bar:
+    char: "■"
+    color-completed: "&#55ff55"
+    color-uncompleted: "&#ff5555"
+
+  # Dźwięki odtwarzane podczas nawigacji i zdarzeń (Zgodne z Anti-Crash - bezpieczny fallback)
+  sounds:
+    enabled: true
+    open-menu: "BLOCK_CHEST_OPEN"
+    quest-locked: "ENTITY_VILLAGER_NO"
+    quest-unlocked: "BLOCK_NOTE_BLOCK_PLING"
+
+  # ----------------------------------------------------------------------------
+  #     GLOBALNE SZABLONY IKON (Zadania są automatycznie w nie wstrzykiwane)
+  # ----------------------------------------------------------------------------
+  quest-icons:
+
+    # 1. Zadanie zablokowane (poprzednie etapy nie zostały wykonane)
+    locked:
+      material: "BARRIER"
+      name: "<red>✖ ᴢᴀʙʟᴏᴋᴏᴡᴀɴᴇ: {quest}"
+      lore:
+        - "<gray>Musisz ukończyć poprzednie etapy tej kategorii."
+
+    # 2. Zadanie odblokowane do wykonania, lecz jeszcze nieaktywne jako globalna misja
+    unlocked:
+      name: "<yellow>☘ ᴅᴏsᴛᴇᴘɴᴇ: {quest}"
+      lore:
+        - ""
+        - "{description}" # Zostanie zastąpione fabularnym opisem z pliku kategorii
+        - ""
+        - "<yellow>▶ {action}" # Dynamicznie zmienia się na "aktywuj" lub "zmień zadanie"
+
+    # 3. Zadanie wybrane przez gracza jako jedyna, aktywna w tym momencie misja
+    active:
+      name: "<yellow>⚒ ᴍ ᴛʀᴀᴋᴄɪᴇ: {quest}"
+      lore:
+        - ""
+        - "{description}"
+        - ""
+        - "<gold>ɴᴀɢʀᴏᴅʏ:</gold>"
+        - "{rewards}" # Automatycznie wygenerowana lista nagród (np. » 5x Chleb, » 50 XP)
+        - ""
+        - "<gray>ᴘᴏsᴛᴇᴘ: <gold>{progress}/{target_amount} &8[{progress_bar}&8]"
+
+    # 4. Zadanie ukończone przez gracza
+    completed:
+      material: "EMERALD"
+      name: "<green>✔ ᴜᴋᴏɴᴄᴢᴏɴᴇ: {quest}"
+      lore:
+        - "<gray>To zadanie zostało wykonane!"
+
+# ==============================================================================
+#                       ACTIONBAR & BOSSBAR & COOLDOWNS
+# ==============================================================================
+
+# Czas (w sekundach), przez jaki ActionBar i BossBar są widoczne po wykonaniu akcji (np. wykopaniu rudy)
+# Po upływie tego czasu pasek automatycznie wygasa (znika), dopóki gracz nie wykona kolejnej akcji.
+# Jest to w pełni zintegrowane z warunkami odświeżania na żywo w CustomNameplates.
+hud-visible-duration: 5
+
+actionbar:
+  enabled: true
+  # Format paska nad hotbarem wysyłany graczowi podczas postępu zadania
+  format: "&eᴀᴋᴛʏᴡɴᴇ ᴢᴀᴅᴀɴɪᴇ: &f{quest} &7- &6{progress}/{target_amount} &8[{progress_bar}&8]"
+
+bossbar:
+  # Wbudowany BossBar Minecrafta.
+  # Zalecamy ustawienie na FALSE, jeśli korzystasz z nakładki z tłem w CustomNameplates.
+  enabled: false
+  color: "YELLOW"
+  style: "SEGMENTED_10"
+  title: "&eᴘᴏsᴛᴇᴘ: &f{quest} &7- &6{progress}/{target_amount} &8[{progress_bar}&8]"
+
+# ==============================================================================
+#                               SYSTEM WIADOMOŚCI
+# ==============================================================================
+messages:
+  quest-unlocked: "{prefix}&aOdblokowano nowe zadanie: &f{quest}&a!"
+  quest-completed: "{prefix}&aGratulacje! Ukończyłeś zadanie: &f{quest}&a!"
+  quest-progress: "{prefix}&ePostęp zadania &f{quest}&e: &6{progress}/{target_amount} &7({percent}%)"
+  cannot-start-locked: "{prefix}&cTo zadanie jest zablokowane! Musisz ukończyć poprzednie etapy."
+  no-permission: "{prefix}&cNie posiadasz uprawnień do wykonania tej akcji."
+  reload-success: "{prefix}&aPomyślnie przeładowano konfigurację i kategorie zadań!"

@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.materiz66.easyquests.commands.EasyQuestsCommand;
 import pl.materiz66.easyquests.config.ConfigManager;
+import pl.materiz66.easyquests.database.DatabaseManager; // NOWY IMPORT
 import pl.materiz66.easyquests.gui.QuestPathMenu;
 import pl.materiz66.easyquests.hook.EasyQuestsPlaceholderExpansion;
 import pl.materiz66.easyquests.listeners.MenuClickListener;
@@ -20,13 +21,17 @@ import pl.materiz66.easyquests.util.ColorUtil;
 import pl.materiz66.easyquests.util.ValidationUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public final class EasyQuests extends JavaPlugin {
     private QuestManager questManager;
     private ConfigManager configManager;
     private BossBarManager bossBarManager;
     private PlayerDataManager playerDataManager;
+    private DatabaseManager databaseManager; // DODANE POLE
 
     @Override
     public void onEnable() {
@@ -35,21 +40,43 @@ public final class EasyQuests extends JavaPlugin {
         this.bossBarManager = new BossBarManager(this);
         this.playerDataManager = new PlayerDataManager(this);
 
+        // 1. Inicjalizacja menedżera baz danych (przed załadowaniem konfiguracji)
+        this.databaseManager = new DatabaseManager(this);
+
         this.configManager.loadConfigs();
 
+        // 2. Inicjalizacja połączeń SQL (SQLite / MySQL w zależności od wyboru w config.yml)
+        this.databaseManager.initialize();
+
+        EasyQuestsCommand cmdExecutor = new EasyQuestsCommand(this);
         if (getCommand("easyquests") != null) {
-            getCommand("easyquests").setExecutor(new EasyQuestsCommand(this));
+            getCommand("easyquests").setExecutor(cmdExecutor);
+            getCommand("easyquests").setTabCompleter(cmdExecutor);
         }
 
         getServer().getPluginManager().registerEvents(new MenuClickListener(this), this);
         getServer().getPluginManager().registerEvents(new QuestProgressionListener(this), this);
 
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new EasyQuestsPlaceholderExpansion(this).register();
+            new EasyQuestsPlaceholderExpansion().register();
             getLogger().info("Zarejestrowano zmienne PlaceholderAPI dla EasyQuests.");
         }
 
-        getLogger().info("EasyQuests 1.5.0 został pomyślnie włączony!");
+        // Automatyczny autozapis co 5 minut
+        Bukkit.getScheduler().runTaskTimer(this, () -> {
+            playerDataManager.saveAll();
+        }, 6000L, 6000L);
+
+        // Sekundowy scheduler do wygaszania HUD
+        Bukkit.getScheduler().runTaskTimer(this, () -> {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (!isHudVisible(player)) {
+                    bossBarManager.removeBossBar(player);
+                }
+            }
+        }, 20L, 20L);
+
+        getLogger().info("EasyQuests 1.6.0 został pomyślnie włączony i połączony z bazą danych!");
     }
 
     @Override
@@ -60,23 +87,40 @@ public final class EasyQuests extends JavaPlugin {
         if (playerDataManager != null) {
             playerDataManager.saveAll();
         }
+        // 3. Bezpieczne zamknięcie aktywnego połączenia SQL
+        if (databaseManager != null) {
+            databaseManager.close();
+        }
         getLogger().info("EasyQuests został wyłączony.");
     }
 
+    // Mapa przechowująca czas (timestamp) ostatniej akcji gracza
+    private final Map<UUID, Long> lastActivity = new HashMap<>();
+
+    public void updateActivity(Player player) {
+        lastActivity.put(player.getUniqueId(), System.currentTimeMillis());
+    }
+
+    public boolean isHudVisible(Player player) {
+        if (!lastActivity.containsKey(player.getUniqueId())) {
+            return false;
+        }
+        long allowedDuration = getConfig().getLong("hud-visible-duration", 5) * 1000L;
+        return (System.currentTimeMillis() - lastActivity.get(player.getUniqueId())) < allowedDuration;
+    }
+
     /**
-     * Aktywuje wybrane przez gracza zadanie w GUI (maksymalnie jedno aktywne)
+     * Aktywuje wybrane przez gracza zadanie w GUI
      */
     public void handleQuestActivation(Player player, Quest quest) {
         PlayerData data = playerDataManager.getPlayerData(player.getUniqueId());
         if (data == null) return;
 
-        // 1. Zabezpieczenie: Czy zadanie jest już ukończone
         if (data.isCompleted(quest.getId())) {
             player.sendMessage(ColorUtil.formatLegacy(getConfigManager().getSettingsConfig().getPrefix() + "&cTo zadanie zostalo juz ukonczone!"));
             return;
         }
 
-        // 2. Zabezpieczenie: Czy etap nie jest zablokowany
         List<Quest> categoryQuests = quest.getCategory().getQuests();
         int index = categoryQuests.indexOf(quest);
         if (index > 0) {
@@ -84,13 +128,12 @@ public final class EasyQuests extends JavaPlugin {
             if (!data.isCompleted(prevQuest.getId())) {
                 player.sendMessage(ColorUtil.formatLegacy(getConfigManager().getSettingsConfig().getPrefix() + "&cTo zadanie jest zablokowane! Musisz ukonczyc poprzednie etapy."));
                 if (getConfig().getBoolean("gui.sounds.enabled", true)) {
-                    player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                    player.playSound(player.getLocation(), org.bukkit.Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
                 }
                 return;
             }
         }
 
-        // 3. Zabezpieczenie: Czy zadanie jest już aktywne
         if (quest.getId().equals(data.getActiveQuestId())) {
             player.sendMessage(ColorUtil.formatLegacy(getConfigManager().getSettingsConfig().getPrefix() + "&cTo zadanie jest juz Twoja aktywnoscia!"));
             return;
@@ -99,7 +142,6 @@ public final class EasyQuests extends JavaPlugin {
         String prefix = getConfigManager().getSettingsConfig().getPrefix();
         String questName = quest.getDisplayName() != null ? quest.getDisplayName() : quest.getId();
 
-        // Sprawdzenie, czy gracz zmienia poprzednio aktywne zadanie
         String oldActiveId = data.getActiveQuestId();
         if (oldActiveId != null) {
             Quest oldQuest = questManager.getQuest(oldActiveId);
@@ -109,18 +151,16 @@ public final class EasyQuests extends JavaPlugin {
             player.sendMessage(ColorUtil.formatLegacy(prefix + "&aUaktywniono zadanie: &f" + questName));
         }
 
-        // Sukces: Zapisujemy nowe aktywne zadanie w pamięci RAM sesji gracza
         data.setActiveQuestId(quest.getId());
+        updateActivity(player);
 
         if (getConfig().getBoolean("gui.sounds.enabled", true)) {
-            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+            player.playSound(player.getLocation(), org.bukkit.Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
         }
 
-        // Aktualizacja graficzna pasków postępu
         int currentProgress = data.getQuestProgress(quest.getId());
         bossBarManager.updateBossBar(player, quest, currentProgress);
 
-        // Odświeżenie GUI (re-open) w celu uaktualnienia lore ikon ("zmień zadanie")
         new QuestPathMenu(this, quest.getCategory(), player).open();
     }
 
@@ -136,6 +176,8 @@ public final class EasyQuests extends JavaPlugin {
 
         if (currentProgress >= target) return;
 
+        updateActivity(player);
+
         int newProgress = currentProgress + progressGained;
         if (newProgress > target) newProgress = target;
 
@@ -146,7 +188,6 @@ public final class EasyQuests extends JavaPlugin {
         String uncompColor = getConfig().getString("gui.progress-bar.color-uncompleted", "&#ff5555");
         String progressBar = ColorUtil.getProgressBar(newProgress, target, 10, barChar, compColor, uncompColor);
 
-        // Wysyłanie paska ActionBar
         if (getConfig().getBoolean("actionbar.enabled", true)) {
             String rawFormat = getConfig().getString("actionbar.format", "&eᴀᴋᴛʏᴡɴᴇ ᴢᴀᴅᴀɴɪᴇ: &f{quest} &7- &6{progress}/{target_amount} &8[{progress_bar}&8]");
             String formatted = rawFormat
@@ -160,46 +201,39 @@ public final class EasyQuests extends JavaPlugin {
 
         bossBarManager.updateBossBar(player, quest, newProgress);
 
-        // Warunek ukończenia zadania
         if (newProgress >= target) {
             data.completeQuest(quest.getId());
             bossBarManager.removeBossBar(player);
-            player.sendActionBar(ColorUtil.format(" ")); // Czyszczenie ActionBar
+            player.sendActionBar(ColorUtil.format(" "));
 
             if (getConfig().getBoolean("gui.sounds.enabled", true)) {
                 Sound sound = ValidationUtil.getSafeSound(getConfig().getString("gui.sounds.quest-unlocked", "BLOCK_NOTE_BLOCK_PLING"), Sound.BLOCK_NOTE_BLOCK_PLING);
                 player.playSound(player.getLocation(), sound, 1.0f, 1.2f);
             }
 
-            // Powiadomienie o ukończeniu
             String rawCompletedMsg = getConfigManager().getSettingsConfig().getMsgQuestCompleted();
             String completedMsg = rawCompletedMsg.replace("{quest}", quest.getDisplayName() != null ? quest.getDisplayName() : quest.getId());
             player.sendMessage(ColorUtil.formatLegacy(completedMsg));
 
-            // Wykonanie nagród
             for (String command : quest.getRewards()) {
                 String cmd = command.replace("%player%", player.getName());
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
             }
 
-            // Automatyczny postęp do kolejnych zadań w tej samej kategorii lub przejście kategorii
             QuestCategory currentCategory = quest.getCategory();
             List<Quest> categoryQuests = currentCategory.getQuests();
             int currentIndex = categoryQuests.indexOf(quest);
 
             if (currentIndex < categoryQuests.size() - 1) {
-                // PRZYPADEK A: Istnieje kolejne zadanie w tej samej kategorii -> automatyczna aktywacja
                 Quest nextQuest = categoryQuests.get(currentIndex + 1);
                 data.setActiveQuestId(nextQuest.getId());
 
                 String nextQuestName = nextQuest.getDisplayName() != null ? nextQuest.getDisplayName() : nextQuest.getId();
                 player.sendMessage(ColorUtil.formatLegacy(getConfigManager().getSettingsConfig().getPrefix() + "&aAutomatycznie aktywowano kolejny etap: &f" + nextQuestName));
 
-                // Natychmiastowe uaktywnienie BossBara dla nowego poziomu
                 int nextProgress = data.getQuestProgress(nextQuest.getId());
                 bossBarManager.updateBossBar(player, nextQuest, nextProgress);
             } else {
-                // PRZYPADEK B: Ukończono całą kategorię -> przejście do kolejnej kategorii (LinkedHashMap)
                 player.sendMessage(ColorUtil.formatLegacy(getConfigManager().getSettingsConfig().getPrefix() + "&6&lGRATULACJE! &aUkonczyles cala sciezke kategorii: &e" + currentCategory.getDisplayName()));
 
                 QuestCategory nextCategory = getNextCategory(currentCategory);
@@ -213,16 +247,12 @@ public final class EasyQuests extends JavaPlugin {
                     int nextProgress = data.getQuestProgress(nextCategoryFirstQuest.getId());
                     bossBarManager.updateBossBar(player, nextCategoryFirstQuest, nextProgress);
                 } else {
-                    // Gracz ukończył absolutnie wszystko
                     player.sendMessage(ColorUtil.formatLegacy(getConfigManager().getSettingsConfig().getPrefix() + "&6&lGRATULACJE! &aUkonczyles absolutnie wszystkie kategorie zadan na serwerze!"));
                 }
             }
         }
     }
 
-    /**
-     * Wyszukuje kolejną kategorię z LinkedHashMap zachowując kolejność ładowania
-     */
     private QuestCategory getNextCategory(QuestCategory current) {
         List<QuestCategory> allCategories = new ArrayList<>(getQuestManager().getCategories().values());
         int index = allCategories.indexOf(current);
@@ -236,4 +266,5 @@ public final class EasyQuests extends JavaPlugin {
     public ConfigManager getConfigManager() { return configManager; }
     public BossBarManager getBossBarManager() { return bossBarManager; }
     public PlayerDataManager getPlayerDataManager() { return playerDataManager; }
+    public DatabaseManager getDatabaseManager() { return databaseManager; } // DODANY GETTER
 }

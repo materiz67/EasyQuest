@@ -13,14 +13,34 @@ public class ColorUtil {
     private static final LegacyComponentSerializer LEGACY_SERIALIZER = LegacyComponentSerializer.legacyAmpersand();
     private static final Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
 
+    /**
+     * Konwertuje tradycyjne kody &#ffffff na format MiniMessage <#ffffff>
+     */
+    public static String convertToMiniMessage(String input) {
+        if (input == null) return "";
+        Matcher matcher = HEX_PATTERN.matcher(input);
+        StringBuilder sb = new StringBuilder();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, "<#" + matcher.group(1) + ">");
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
     public static String formatLegacy(String input) {
         if (input == null) return "";
 
-        if (input.contains("<") && input.contains(">")) {
-            Component component = MINI_MESSAGE.deserialize(input);
-            input = LegacyComponentSerializer.builder().character('&').build().serialize(component);
+        // Przekształcamy kody Bungee Hex na MiniMessage przed parsowaniem
+        String miniMessageFormatted = convertToMiniMessage(input);
+
+        // Jeśli ciąg zawiera tagi MiniMessage, pozwalamy mu go zserializować
+        if (miniMessageFormatted.contains("<") && miniMessageFormatted.contains(">")) {
+            Component component = MINI_MESSAGE.deserialize(miniMessageFormatted);
+            return LegacyComponentSerializer.builder().character('&').build().serialize(component)
+                    .replace("&", "§"); // Zamiana na natywny symbol sekcji Bukkit
         }
 
+        // Klasyczny fallback Bungee/Bukkit
         Matcher matcher = HEX_PATTERN.matcher(input);
         StringBuilder buffer = new StringBuilder();
         while (matcher.find()) {
@@ -28,7 +48,6 @@ public class ColorUtil {
             matcher.appendReplacement(buffer, ChatColor.of("#" + color).toString());
         }
         matcher.appendTail(buffer);
-
         return ChatColor.translateAlternateColorCodes('&', buffer.toString());
     }
 

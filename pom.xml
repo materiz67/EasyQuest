@@ -6,7 +6,7 @@
 
     <groupId>pl.materiz66</groupId>
     <artifactId>EasyQuests</artifactId>
-    <version>1.5.0</version>
+    <version>1.5.5</version>
     <packaging>jar</packaging>
 
     <name>EasyQuests</name>
