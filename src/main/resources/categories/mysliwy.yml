@@ -1,0 +1,74 @@
+display-name: "&#55ff55🏹 Myślistwo"
+material: "BOW"
+slot: 14
+lore:
+  - "<gray>Zadania bojowe i polowanie na potwory.</gray>"
+  - ""
+  - "<yellow>▶ Kliknij, aby otworzyć ścieżkę!</yellow>"
+quests:
+  - id: "mysliwy-zombie"
+    display-name: "<yellow>Pogromca Umarłych"
+    description:
+      - "<gray>Noc niesie za soba smiertelne zagrozenia."
+      - "<gray>Wyjdz na powierzchnie po zachodzie slonca i"
+      - "<gray>pokonaj 10 zombie, oczyszczajac okolice z umarlych."
+    material: "ROTTEN_FLESH"
+    objective:
+      type: "KILL_MOBS"
+      target: "ZOMBIE"
+      amount: 10
+    rewards:
+      - "give %player% iron_ingot 3"
+      - "xp give %player% 150"
+  - id: "mysliwy-szkielet"
+    display-name: "<gray>Łowca Kości"
+    description:
+      - "<gray>Szkielety potrafia zadac obrazenia z dystansu."
+      - "<gray>Unikaj ich strzal, podejdz blisko i pokonaj"
+      - "<gray>8 szkieletow, aby przejac ich cenny zapas strzal."
+    material: "BONE"
+    objective:
+      type: "KILL_MOBS"
+      target: "SKELETON"
+      amount: 8
+    rewards:
+      - "give %player% arrow 16"
+  - id: "mysliwy-pajak"
+    display-name: "<dark_purple>Toksyczna Sieć"
+    description:
+      - "<gray>Pajaki sa szybkie i potrafia wspinac sie po scianach."
+      - "<gray>Zlikwiduj 12 pajakow, aby zdobyc ich nici,"
+      - "<gray>ktore pozwola Ci stworzyc pierwszy luk."
+    material: "SPIDER_EYE"
+    objective:
+      type: "KILL_MOBS"
+      target: "SPIDER"
+      amount: 12
+    rewards:
+      - "give %player% string 6"
+  - id: "mysliwy-creeper"
+    display-name: "<green>Saper"
+    description:
+      - "<gray>Najbardziej podstępne potwory w calym swiecie."
+      - "<gray>Musisz pokonac 5 creeperow zanim ich cichy"
+      - "<gray>syk doprowadzi do niszczycielskiej eksplozji."
+    material: "GUNPOWDER"
+    objective:
+      type: "KILL_MOBS"
+      target: "CREEPER"
+      amount: 5
+    rewards:
+      - "give %player% tnt 2"
+  - id: "mysliwy-enderman"
+    display-name: "<purple>Wędrowiec Kresu"
+    description:
+      - "<gray>Tajemnicze istoty potrafiace sie teleportowac."
+      - "<gray>Nie patrz im prosto w oczy, dopoki nie jestes gotow."
+      - "<gray>Pokonaj 3 Endermanow, aby zdobyc perly kresu."
+    material: "ENDER_PEARL"
+    objective:
+      type: "KILL_MOBS"
+      target: "ENDERMAN"
+      amount: 3
+    rewards:
+      - "give %player% netherite_scrap 1"

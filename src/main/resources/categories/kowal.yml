@@ -1,0 +1,73 @@
+display-name: "&#ff5555⚒ Kowalstwo"
+material: "ANVIL"
+slot: 12
+lore:
+  - "<gray>Twórz i ulepszaj potężny ekwipunek.</gray>"
+  - ""
+  - "<yellow>▶ Kliknij, aby otworzyć ścieżkę!</yellow>"
+quests:
+  - id: "kowal-miecz"
+    display-name: "<yellow>Pierwsza Broń"
+    description:
+      - "<gray>Dobry wojownik potrzebuje solidnej broni."
+      - "<gray>Przejdz do stolu rzemieslniczego i wytworz"
+      - "<gray>jeden zelazny miecz, ktory posluzy Ci do obrony."
+    material: "IRON_SWORD"
+    objective:
+      type: "CRAFT_ITEM"
+      target: "IRON_SWORD"
+      amount: 1
+    rewards:
+      - "give %player% iron_ingot 3"
+  - id: "kowal-klata"
+    display-name: "<gold>Żelazny Pancerz"
+    description:
+      - "<gray>Bezpieczenstwo to klucz na polu bitwy."
+      - "<gray>Wykuj ciezki, zelazny napiersnik (chestplate),"
+      - "<gray>ktory ochroni Twoje serce przed strzałami szkieletow."
+    material: "IRON_CHESTPLATE"
+    objective:
+      type: "CRAFT_ITEM"
+      target: "IRON_CHESTPLATE"
+      amount: 1
+    rewards:
+      - "give %player% coal 10"
+  - id: "kowal-tarcza"
+    display-name: "<gray>Solidna Tarcza"
+    description:
+      - "<gray>Tarcza potrafi zablokowac nawet wybuch creepera."
+      - "<gray>Wytworz jedna drewniano-zelazna tarcze (shield),"
+      - "<gray>aby poczuc sie pewniej w ciemnych jaskiniach."
+    material: "SHIELD"
+    objective:
+      type: "CRAFT_ITEM"
+      target: "SHIELD"
+      amount: 1
+    rewards:
+      - "give %player% iron_ingot 2"
+  - id: "kowal-kilof"
+    display-name: "<aqua>Narzędzie Mistrza"
+    description:
+      - "<gray>Diamentowy kilof otwiera droge do obsydianu."
+      - "<gray>Wytworz jeden diamentowy kilof, aby umozliwic sobie"
+      - "<gray>pozyskiwanie surowcow najwyzszej klasy."
+    material: "DIAMOND_PICKAXE"
+    objective:
+      type: "CRAFT_ITEM"
+      target: "DIAMOND_PICKAXE"
+      amount: 1
+    rewards:
+      - "xp give %player% 200"
+  - id: "kowal-kowadlo"
+    display-name: "<dark_gray>Kowalskie Serce"
+    description:
+      - "<gray>Czas na szczyt kowalskiego rzemiosła."
+      - "<gray>Zgromadz zelazne bloki i wytworz kowadlo (anvil),"
+      - "<gray>ktore umozliwi Ci laczenie zaklec na przedmiotach."
+    material: "ANVIL"
+    objective:
+      type: "CRAFT_ITEM"
+      target: "ANVIL"
+      amount: 1
+    rewards:
+      - "give %player% gold_ingot 5"

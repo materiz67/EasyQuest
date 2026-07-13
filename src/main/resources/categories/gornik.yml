@@ -1,0 +1,87 @@
+display-name: "&#ff9900⛏ Górnictwo"
+material: "DIAMOND_PICKAXE"
+slot: 10
+lore:
+  - "<gray>Zadania związane z wydobywaniem rud.</gray>"
+  - ""
+  - "<yellow>▶ Kliknij, aby otworzyć ścieżkę!</yellow>"
+quests:
+  - id: "gornik-wegiel"
+    display-name: "<yellow>Węglowy Początek"
+    description:
+      - "<gray>Rozpocznij swoja przygode z gornictwem."
+      - "<gray>Zejdz pod ziemie i wydobadz 16 sztuk rudy wegla,"
+      - "<gray>ktora posluzy do oswietlenia Twoich jaskin."
+    material: "COAL_ORE"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "COAL_ORE"
+      amount: 16
+    rewards:
+      - "give %player% bread 5"
+      - "xp give %player% 50"
+  - id: "gornik-zelazo"
+    display-name: "<gold>Żelazny Hart"
+    description:
+      - "<gray>Zelazo to podstawa dobrego ekwipunku."
+      - "<gray>Wyszukaj i wydobadz 10 sztuk rudy zelaza,"
+      - "<gray>aby stworzyc mocniejsze narzedzia gornicze."
+    material: "IRON_ORE"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "IRON_ORE"
+      amount: 10
+    rewards:
+      - "give %player% iron_pickaxe 1"
+  - id: "gornik-lapis"
+    display-name: "<blue>Lazurowy Blask"
+    description:
+      - "<gray>Lapis lazuli skrywa w sobie mistyczna moc."
+      - "<gray>Zjedz na poziom lupka i wydobadz 12 sztuk rudy,"
+      - "<gray>ktora bedzie kluczowa do zaklecania przedmiotow."
+    material: "LAPIS_ORE"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "LAPIS_ORE"
+      amount: 12
+    rewards:
+      - "give %player% lapis_lazuli 16"
+  - id: "gornik-zloto"
+    display-name: "<yellow>Złota Gorączka"
+    description:
+      - "<gray>Zloto to symbol bogactwa i cennych mikstur."
+      - "<gray>Wydobadz 8 sztuk rudy zlota ze swiata lub"
+      - "<gray>z glebokich jaskin pustynnych badlands."
+    material: "GOLD_ORE"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "GOLD_ORE"
+      amount: 8
+    rewards:
+      - "give %player% golden_apple 1"
+  - id: "gornik-redstone"
+    display-name: "<red>Czerwony Sygnał"
+    description:
+      - "<gray>Czerwony kamien napedza mechanizmy i automatyzacje."
+      - "<gray>Odszukaj i wydobadz 15 blokow rudy redstone"
+      - "<gray>w najglebszych czelusciach swiata."
+    material: "REDSTONE_ORE"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "REDSTONE_ORE"
+      amount: 15
+    rewards:
+      - "xp give %player% 100"
+  - id: "gornik-diament"
+    display-name: "<aqua>Diamentowy Triumf"
+    description:
+      - "<gray>Czas na najwazniejsze gornicze trofeum."
+      - "<gray>Przełam skaly blisko poziomu bedrocka"
+      - "<gray>i wydobadz 5 najcenniejszych rud diamentu."
+    material: "DIAMOND_ORE"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "DIAMOND_ORE"
+      amount: 5
+    rewards:
+      - "give %player% diamond 2"

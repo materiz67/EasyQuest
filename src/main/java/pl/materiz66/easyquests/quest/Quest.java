@@ -1,47 +1,36 @@
 package pl.materiz66.easyquests.quest;
 
-import org.bukkit.inventory.ItemStack;
-import pl.materiz66.easyquests.objective.QuestObjective;
-
+import org.bukkit.Material;
 import java.util.List;
 
 public class Quest {
     private final String id;
-    private final String category; // Przypisanie zadania do konkretnej kategorii
     private final String displayName;
     private final List<String> description;
-    private final int order;
-
-    private final ItemStack lockedIcon;
-    private final ItemStack activeIcon;
-    private final ItemStack completedIcon;
-
+    private final Material material;
     private final QuestObjective objective;
     private final List<String> rewards;
+    private final List<String> rewardsDisplay; // Nowe pole do wyświetlania nagród w GUI
+    private final QuestCategory category;
 
-    public Quest(String id, String category, String displayName, List<String> description, int order,
-                 ItemStack lockedIcon, ItemStack activeIcon, ItemStack completedIcon,
-                 QuestObjective objective, List<String> rewards) {
+    public Quest(String id, String displayName, List<String> description, Material material,
+                 QuestObjective objective, List<String> rewards, List<String> rewardsDisplay, QuestCategory category) {
         this.id = id;
-        this.category = category;
         this.displayName = displayName;
         this.description = description;
-        this.order = order;
-        this.lockedIcon = lockedIcon;
-        this.activeIcon = activeIcon;
-        this.completedIcon = completedIcon;
+        this.material = material;
         this.objective = objective;
         this.rewards = rewards;
+        this.rewardsDisplay = rewardsDisplay;
+        this.category = category;
     }
 
     public String getId() { return id; }
-    public String getCategory() { return category; }
     public String getDisplayName() { return displayName; }
     public List<String> getDescription() { return description; }
-    public int getOrder() { return order; }
-    public ItemStack getLockedIcon() { return lockedIcon; }
-    public ItemStack getActiveIcon() { return activeIcon; }
-    public ItemStack getCompletedIcon() { return completedIcon; }
+    public Material getMaterial() { return material; }
     public QuestObjective getObjective() { return objective; }
     public List<String> getRewards() { return rewards; }
+    public List<String> getRewardsDisplay() { return rewardsDisplay; }
+    public QuestCategory getCategory() { return category; }
 }

@@ -1,0 +1,74 @@
+display-name: "&#cc33ff🧪 Alchemia"
+material: "BREWING_STAND"
+slot: 16
+lore:
+  - "<gray>Zadania związane z warzeniem mikstur.</gray>"
+  - ""
+  - "<yellow>▶ Kliknij, aby otworzyć ścieżkę!</yellow>"
+quests:
+  - id: "alchemik-bottle"
+    display-name: "<white>Szklarz"
+    description:
+      - "<gray>Przetop piasek w hucie szkla."
+      - "<gray>Uzyj stolu rzemieslniczego i wytworz 3 szklane butelki,"
+      - "<gray>ktore beda podstawa kazdego magicznego eliksiru."
+    material: "GLASS_BOTTLE"
+    objective:
+      type: "CRAFT_ITEM"
+      target: "GLASS_BOTTLE"
+      amount: 3
+    rewards:
+      - "give %player% redstone 4"
+      - "xp give %player% 30"
+  - id: "alchemik-awkward"
+    display-name: "<gray>Magiczny Wywar"
+    description:
+      - "<gray>Napełnij butelki woda, umiesc je w statywie alchemicznym."
+      - "<gray>Uzyj netherowej brodawki i uwarz 3 niezręczne mikstury,"
+      - "<gray>będące baza pod zaawansowane mikstury."
+    material: "POTION"
+    objective:
+      type: "BREW_POTION"
+      target: "AWKWARD"
+      amount: 3
+    rewards:
+      - "give %player% nether_wart 4"
+  - id: "alchemik-healing"
+    display-name: "<red>Mikstura Zdrowia"
+    description:
+      - "<gray>Dodaj lsnacy plaster arbuza do niezrecznej mikstury."
+      - "<gray>Uwarz 3 mikstury natychmiastowego uzdrawiania,"
+      - "<gray>ktore natychmiast uratuja Twoje zycie w walce."
+    material: "POTION"
+    objective:
+      type: "BREW_POTION"
+      target: "INSTANT_HEALTH"
+      amount: 3
+    rewards:
+      - "give %player% glistering_melon_slice 3"
+  - id: "alchemik-strength"
+    display-name: "<dark_red>Siła Tytana"
+    description:
+      - "<gray>Blaze powder to zrodlo energii statywu i eliksiru siły."
+      - "<gray>Uwarz 3 mikstury siły w swoim laboratorium,"
+      - "<gray>aby zadawac znacznie wieksze obrazenia mieczem."
+    material: "POTION"
+    objective:
+      type: "BREW_POTION"
+      target: "STRENGTH"
+      amount: 3
+    rewards:
+      - "give %player% blaze_powder 2"
+  - id: "alchemik-invisibility"
+    display-name: "<blue>Mistrz Cieni"
+    description:
+      - "<gray>Sfermentowane oko pajaka uzyte na miksturze widzenia w ciemnosci."
+      - "<gray>Uwarz 1 miksture niewidzialnosci,"
+      - "<gray>ktora ukryje Cie przed wzrokiem groznych potworow."
+    material: "POTION"
+    objective:
+      type: "BREW_POTION"
+      target: "INVISIBILITY"
+      amount: 1
+    rewards:
+      - "xp give %player% 200"

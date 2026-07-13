@@ -1,0 +1,87 @@
+display-name: "&#ffcc33🌾 Rolnictwo"
+material: "GOLDEN_HOE"
+slot: 13
+lore:
+  - "<gray>Zadania związane z uprawą roli.</gray>"
+  - ""
+  - "<yellow>▶ Kliknij, aby otworzyć ścieżkę!</yellow>"
+quests:
+  - id: "rolnik-wheat"
+    display-name: "<yellow>Pierwsze Zbiory"
+    description:
+      - "<gray>Zbuduj proste pole blisko zrodla wody."
+      - "<gray>Zasadz nasiona i zbierz 32 sztuki"
+      - "<gray>dojrzalej pszenicy, ktora upieczesz na chleb."
+    material: "WHEAT"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "WHEAT"
+      amount: 32
+    rewards:
+      - "give %player% bone_meal 8"
+      - "xp give %player% 40"
+  - id: "rolnik-carrot"
+    display-name: "<gold>Pomarańczowy Przysmak"
+    description:
+      - "<gray>Marchewki sa swietnym i szybkim zrodlem jedzenia."
+      - "<gray>Zasadz je na uzyznionej glebie i wyhoduj"
+      - "<gray>24 marchewki, aby nakarmic swoje zwierzeta."
+    material: "CARROT"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "CARROT"
+      amount: 24
+    rewards:
+      - "give %player% golden_carrot 4"
+  - id: "rolnik-potato"
+    display-name: "<gray>Ziemniaczany Raj"
+    description:
+      - "<gray>Wykop ziemniaki z pola."
+      - "<gray>Zbierz 24 surowe ziemniaki, ktore pozniej"
+      - "<gray>mozesz upiec w piecu dla zwiekszenia sytosci."
+    material: "POTATO"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "POTATO"
+      amount: 24
+    rewards:
+      - "give %player% baked_potato 16"
+  - id: "rolnik-pumpkin"
+    display-name: "<gold>Dyniowy Strach"
+    description:
+      - "<gray>Dynie rosna dluzej niz pszenica, wymagaja wolnego bloku."
+      - "<gray>Zbierz 12 dyń z uprawy, ktore posluza"
+      - "<gray>Ci do upieczenia plackow dyniowych."
+    material: "PUMPKIN"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "PUMPKIN"
+      amount: 12
+    rewards:
+      - "give %player% pumpkin_pie 4"
+  - id: "rolnik-melon"
+    display-name: "<green>Arbuzowe Orzeźwienie"
+    description:
+      - "<gray>Arbuzy daja duzo plastrow idealnych na pustynne dni."
+      - "<gray>Wyhoduj i rozbij 12 arbuzow,"
+      - "<gray>aby zdobyc zapas orzezwiajacych owocow."
+    material: "MELON"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "MELON"
+      amount: 12
+    rewards:
+      - "give %player% glistering_melon_slice 4"
+  - id: "rolnik-nether-wart"
+    display-name: "<red>Piekielne Uprawy"
+    description:
+      - "<gray>Te rosliny nie potrzebuja wody ani ziemi, a duszoziemia."
+      - "<gray>Przenies sie do Netheru, zasadz i zbierz"
+      - "<gray>16 sztuk netherowych brodawek do celow alchemicznych."
+    material: "NETHER_WART"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "NETHER_WART"
+      amount: 16
+    rewards:
+      - "xp give %player% 150"

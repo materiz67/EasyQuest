@@ -1,16 +1,23 @@
-name: EasyQuest
-version: '1.4.0'
-main: pl.materiz66.easyquests.EasyQuestPlugin
-api-version: '1.21'
-author: materiz67
-description: Nowoczesny i w pełni konfigurowalny plugin na zadania liniowe pod wersję 1.21.8+.
+name: EasyQuests
+version: 1.5.0
+main: pl.materiz66.easyquests.EasyQuests
+api-version: '1.20'
+author: materiz66
+description: Nowoczesny i lekki plugin na zadania z liniowym drzewkiem progresji.
+website: https://github.com/materiz66/EasyQuest
+softdepend: [PlaceholderAPI] # Automatyczne ładowanie hooków po starcie PAPI
 
 commands:
-  quest:
-    description: Otwiera menu drogi zadan lub pokazuje status.
-    permission: easyquests.use
+  easyquests:
+    description: Główna komenda pluginu EasyQuests.
     aliases: [quests, zadania, questy]
-  easyquest:
-    description: Glowna komenda administracyjna EasyQuests.
-    permission: easyquests.admin
-    aliases: [eq]
+    permission: easyquests.use
+    permission-message: "&cNie posiadasz uprawnień do tej komendy!"
+
+permissions:
+  easyquests.use:
+    description: Zezwala na otwieranie menu zadań i używanie podstawowych komend.
+    default: true
+  easyquests.admin:
+    description: Zezwala na przeładowywanie konfiguracji i zarządzanie zadaniami administratora.
+    default: op

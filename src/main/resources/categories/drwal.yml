@@ -1,0 +1,87 @@
+display-name: "&#22ff22🌲 Drwalstwo"
+material: "OAK_LOG"
+slot: 11
+lore:
+  - "<gray>Zadania związane ze ścinaniem drzew.</gray>"
+  - ""
+  - "<yellow>▶ Kliknij, aby otworzyć ścieżkę!</yellow>"
+quests:
+  - id: "drwal-oak"
+    display-name: "<yellow>Dębowy Start"
+    description:
+      - "<gray>Wytworz prosty siekacz i ruszaj do lasu dębowego."
+      - "<gray>Scnij i zgromadz 32 kłody debu,"
+      - "<gray>ktore beda fundamentem pod Twoj pierwszy schron."
+    material: "OAK_LOG"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "OAK_LOG"
+      amount: 32
+    rewards:
+      - "give %player% oak_sapling 4"
+      - "xp give %player% 30"
+  - id: "drwal-birch"
+    display-name: "<white>Brzozowa Delikatność"
+    description:
+      - "<gray>Jasne drewno brzozowe nadaje sie do ozdobnych mebli."
+      - "<gray>Scnij i zbierz 24 klody brzozy,"
+      - "<gray>aby rozbudowac wykonczenie swojego domu."
+    material: "BIRCH_LOG"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "BIRCH_LOG"
+      amount: 24
+    rewards:
+      - "give %player% birch_sapling 4"
+  - id: "drwal-spruce"
+    display-name: "<dark_green>Świerkowy Chłód"
+    description:
+      - "<gray>Swierki rosna w surowych, gorskich klimatach."
+      - "<gray>Wyszukaj ciemne drzewa iglaste i scnij 24"
+      - "<gray>klody swierku do celow konstrukcyjnych."
+    material: "SPRUCE_LOG"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "SPRUCE_LOG"
+      amount: 24
+    rewards:
+      - "give %player% spruce_sapling 4"
+  - id: "drwal-dark-oak"
+    display-name: "<dark_gray>Ciemny Las"
+    description:
+      - "<gray>Pnie ciemnego debu sa niezwykle grube i solidne."
+      - "<gray>Przedrzyj sie przez gesty, mroczny las i"
+      - "<gray>pozyskaj 20 sztuk ciemnego drewna debowego."
+    material: "DARK_OAK_LOG"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "DARK_OAK_LOG"
+      amount: 20
+    rewards:
+      - "give %player% golden_apple 1"
+  - id: "drwal-mangrove"
+    display-name: "<red>Mangrowe Bagna"
+    description:
+      - "<gray>Bloto i gesta roslinnosc ukladaja sie w trudny teren."
+      - "<gray>Odszukaj czerwone mangrowce rosnace w wodzie"
+      - "<gray>i zdobadz 16 kłod mangrowych."
+    material: "MANGROVE_LOG"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "MANGROVE_LOG"
+      amount: 16
+    rewards:
+      - "xp give %player% 100"
+  - id: "drwal-cherry"
+    display-name: "<light_purple>Wiśniowy Zakątek"
+    description:
+      - "<gray>Rozowe, pachnace ogrody wisniowe na szczytach gor."
+      - "<gray>To jedno z najbardziej unikalnych drzew w grze."
+      - "<gray>Zgromadz 16 kłod wisniowych, aby ukonczyc sciezke."
+    material: "CHERRY_LOG"
+    objective:
+      type: "MINE_BLOCKS"
+      target: "CHERRY_LOG"
+      amount: 16
+    rewards:
+      - "give %player% cherry_sapling 2"

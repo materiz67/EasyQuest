@@ -1,0 +1,74 @@
+display-name: "&#33ccff🎣 Rybactwo"
+material: "FISHING_ROD"
+slot: 15
+lore:
+  - "<gray>Zadania związane z łowieniem ryb.</gray>"
+  - ""
+  - "<yellow>▶ Kliknij, aby otworzyć ścieżkę!</yellow>"
+quests:
+  - id: "rybak-cod"
+    display-name: "<yellow>Pierwsza Ryba"
+    description:
+      - "<gray>Stworz wedke, stan nad brzegiem jeziora lub oceanu."
+      - "<gray>Zarzuc splawik i zlow 10 sztuk surowego dorsza,"
+      - "<gray>stawiajac pierwsze kroki w rybactwie."
+    material: "COD"
+    objective:
+      type: "FISH_ITEM"
+      target: "COD"
+      amount: 10
+    rewards:
+      - "give %player% cooked_cod 8"
+      - "xp give %player% 50"
+  - id: "rybak-salmon"
+    display-name: "<red>Łososiowy Bieg"
+    description:
+      - "<gray>Lososie to silne ryby zyjace w czystych rzekach."
+      - "<gray>Uzyj swojej wedki i zlow 8 sztuk łososia,"
+      - "<gray>ktory bedzie zdrowym i sytym posilkiem."
+    material: "SALMON"
+    objective:
+      type: "FISH_ITEM"
+      target: "SALMON"
+      amount: 8
+    rewards:
+      - "give %player% cooked_salmon 8"
+  - id: "rybak-puffer"
+    display-name: "<gold>Aura Toksyn"
+    description:
+      - "<gray>Niektore stworzenia wodne bywaja trujace.</gray>"
+      - "<gray>Zlow 5 sztuk rozdymek, ktore"
+      - "<gray>mozna wykorzystac do uwarzenia mikstur oddychania pod woda."
+    material: "PUFFERFISH"
+    objective:
+      type: "FISH_ITEM"
+      target: "PUFFERFISH"
+      amount: 5
+    rewards:
+      - "give %player% water_breathing_potion 1"
+  - id: "rybak-tropical"
+    display-name: "<light_purple>Kolory Oceanu"
+    description:
+      - "<gray>Ryby tropikalne wymagaja cieplych wod oceanicznych."
+      - "<gray>Wyrusz na poludnie, zarzuc wedke i wylow"
+      - "<gray>5 unikalnych ryb tropikalnych."
+    material: "TROPICAL_FISH"
+    objective:
+      type: "FISH_ITEM"
+      target: "TROPICAL_FISH"
+      amount: 5
+    rewards:
+      - "xp give %player% 100"
+  - id: "rybak-saddle"
+    display-name: "<dark_red>Skarb z Głębin"
+    description:
+      - "<gray>Woda skrywa nie tylko ryby, ale i stare skarby."
+      - "<gray>Miej cierpliwosc i wedkuj, az z głebin oceanu"
+      - "<gray>wylowisz jedno stare, zagubione siodlo (saddle)."
+    material: "SADDLE"
+    objective:
+      type: "FISH_ITEM"
+      target: "SADDLE"
+      amount: 1
+    rewards:
+      - "give %player% diamond 1"

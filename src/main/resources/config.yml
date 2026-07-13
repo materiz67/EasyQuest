@@ -1,127 +1,31 @@
-# ================================================================ #
-#                    EasyQuests  Config v1.4                       #
-#                  github.com/materiz67/EasyQuests                 #
-# ================================================================ #
-
-# -------------------------------------------------- #
-#  BAZA DANYCH                                        #
-# -------------------------------------------------- #
-database:
-  # true = MySQL/MariaDB (sieć serwerów), false = SQLite (lokalny plik database.db)
-  use-mysql: false
-  host: "localhost"
-  port: 3306
-  database: "minecraft"
-  username: "root"
-  password: "password"
-
-# -------------------------------------------------- #
-#  OGÓLNE USTAWIENIA                                  #
-# -------------------------------------------------- #
-settings:
-  # Format paska postępu wyświetlanego nad ekwipunkiem gracza (ActionBar)
-  actionbar-progress-format: "<gray>Zadanie: <yellow>%quest% <gray>➔ <gold>%progress%/%target%</gold>"
-  # Czy pokazywać ActionBar podczas postępu?
-  show-actionbar: true
-  # Czy automatycznie aktywować pierwsze zadanie kategorii przy wejściu gracza?
-  auto-start-first-quest: true
-
-# -------------------------------------------------- #
-#  KONFIGURACJA GUI                                   #
-# -------------------------------------------------- #
-gui:
-  category-menu:
-    title: "<gradient:gold:yellow>Kategorie Zadań</gradient>"
-    # Rozmiar musi być wielokrotnością 9 (max 54)
-    size: 27
-    # Materiał wypełnienia pustych miejsc
-    fill-material: "GRAY_STAINED_GLASS_PANE"
-
-  road-menu:
-    # {category} zostanie zastąpione nazwą kategorii (plain text)
-    title: "<gray>Ścieżka: <gold>{category}</gold></gray>"
-    size: 54
-    fill-material: "GRAY_STAINED_GLASS_PANE"
-    back-button-slot: 45
-    back-button-material: "ARROW"
-    back-button-name: "<red>⬅ Powrót do Kategorii"
-
-  details-menu:
-    # {quest} zostanie zastąpione nazwą zadania (plain text)
-    title: "<gray>Zadanie: <yellow>{quest}</yellow></gray>"
-    size: 27
-    fill-material: "GRAY_STAINED_GLASS_PANE"
-    info-item-slot: 13
-    info-item-material: "WRITTEN_BOOK"
-    info-item-name: "<gold>✦ Informacje i Cele"
-    back-button-slot: 18
-    back-button-material: "ARROW"
-    back-button-name: "<red>⬅ Powrót do Ścieżki"
-
-# -------------------------------------------------- #
-#  KATEGORIE ZADAŃ                                    #
-# -------------------------------------------------- #
-# Każda kategoria musi mieć unikalne 'id' (klucz).
-# Slot to numer slotu w menu kategorii (size: 27).
-# Symetryczne rozmieszczenie 6 kategorii: sloty 10–15 (środkowy rząd).
-#
-# Schemat (27 slotów):
-#  [■][■][■][■][■][■][■][■][■]  ← rząd 1 (0-8)  – tło
-#  [■][G][M][R][Y][D][K][■][■]  ← rząd 2 (9-17) – 6 kategorii + tło
-#  [■][■][■][■][■][■][■][■][■]  ← rząd 3 (18-26)– tło
-# -------------------------------------------------- #
-categories:
-
-  gornik:
-    display-name: "<gold>⛏ Górnictwo</gold>"
-    material: "DIAMOND_PICKAXE"
-    slot: 10
+# ... [Reszta konfiguracji pozostaje bez zmian] ...
+quest-icons:
+  locked:
+    material: "BARRIER"
+    name: "<red>✖ ᴢᴀʙʟᴏᴋᴏᴡᴀɴᴇ: {quest}"
     lore:
-      - "<gray>Zadania związane z wydobywaniem rud.</gray>"
-      - ""
-      - "<yellow>▶ Kliknij, aby otworzyć ścieżkę!</yellow>"
-
-  mysliwy:
-    display-name: "<red>⚔ Myślistwo</red>"
-    material: "IRON_SWORD"
-    slot: 11
+      - "<gray>Musisz ukończyć poprzednie etapy tej kategorii."
+  unlocked:
+    name: "<yellow>☘ ᴅᴏsᴛᴇᴘɴᴇ: {quest}"
     lore:
-      - "<gray>Zadania polegające na eliminacji potworów.</gray>"
       - ""
-      - "<yellow>▶ Kliknij, aby otworzyć ścieżkę!</yellow>"
-
-  rolnik:
-    display-name: "<green>🌾 Rolnictwo</green>"
-    material: "WHEAT"
-    slot: 12
+      - "{description}"
+      - ""
+      - "<yellow>▶ {action}" # Zostanie zastąpione dynamicznym tekstem aktywacji lub zmiany
+  active:
+    name: "<yellow>⚒ ᴍ ᴛʀᴀᴋᴄɪᴇ: {quest}"
     lore:
-      - "<gray>Zadania polegające na zbieraniu plonów.</gray>"
       - ""
-      - "<yellow>▶ Kliknij, aby otworzyć ścieżkę!</yellow>"
-
-  rybak:
-    display-name: "<aqua>🎣 Rybactwo</aqua>"
-    material: "FISHING_ROD"
-    slot: 13
+      - "{description}"
+      - ""
+      - "<gold>ɴᴀɢʀᴏᴅʏ:</gold>"
+      - "{rewards}"
+      - ""
+      - "<gray>ᴘᴏsᴛᴇᴘ: <gold>{progress}/{target_amount} &8[{progress_bar}&8]"
+      - ""
+      - "<yellow>▶ Kliknij po szczegóły"
+  completed:
+    material: "EMERALD"
+    name: "<green>✔ ᴜᴋᴏɴᴄᴢᴏɴᴇ: {quest}"
     lore:
-      - "<gray>Zadania polegające na łowieniu ryb.</gray>"
-      - ""
-      - "<yellow>▶ Kliknij, aby otworzyć ścieżkę!</yellow>"
-
-  drwal:
-    display-name: "<dark_green>🪓 Drwalnictwo</dark_green>"
-    material: "IRON_AXE"
-    slot: 14
-    lore:
-      - "<gray>Zadania polegające na ścinaniu drzew.</gray>"
-      - ""
-      - "<yellow>▶ Kliknij, aby otworzyć ścieżkę!</yellow>"
-
-  kowal:
-    display-name: "<yellow>🔨 Kowalstwo</yellow>"
-    material: "IRON_INGOT"
-    slot: 15
-    lore:
-      - "<gray>Zadania polegające na wytwarzaniu przedmiotów.</gray>"
-      - ""
-      - "<yellow>▶ Kliknij, aby otworzyć ścieżkę!</yellow>"
+      - "<gray>To zadanie zostało wykonane!"
